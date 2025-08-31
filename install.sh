@@ -58,19 +58,39 @@ apt install -y curl wget git nano ufw htop
 
 echo "=== 安装 Docker ==="
 if ! command -v docker &> /dev/null; then
-    curl -fsSL https://get.docker.com -o get-docker.sh
-    sh get-docker.sh
+    # 手动安装Docker，避免官方脚本的包问题
+    apt-get update
+    apt-get install -y apt-transport-https ca-certificates curl gnupg lsb-release
+    
+    # 添加Docker官方GPG密钥
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    
+    # 添加Docker仓库
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+    
+    # 安装Docker
+    apt-get update
+    apt-get install -y docker-ce docker-ce-cli containerd.io
+    
+    # 启动Docker
     systemctl enable docker
     systemctl start docker
-    rm get-docker.sh
+    
+    echo "Docker 安装完成"
 else
     echo "Docker 已安装"
 fi
 
 echo "=== 安装 Docker Compose ==="
 if ! command -v docker-compose &> /dev/null; then
-    curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    # 安装Docker Compose v2.20.2 (稳定版本)
+    curl -L "https://github.com/docker/compose/releases/download/v2.20.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
     chmod +x /usr/local/bin/docker-compose
+    
+    # 创建软链接
+    ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose
+    
+    echo "Docker Compose 安装完成"
 else
     echo "Docker Compose 已安装"
 fi
