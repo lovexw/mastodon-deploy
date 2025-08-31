@@ -30,7 +30,26 @@ chmod +x install.sh
 echo "文件下载完成，开始部署..."
 echo ""
 
-# 运行安装脚本 (使用交互模式)
+# 获取用户输入
+echo "请输入你的域名 (例如: social.example.com): "
+read DOMAIN
+if [ -z "$DOMAIN" ]; then
+    echo "域名不能为空"
+    exit 1
+fi
+
+echo "请输入管理员邮箱: "
+read ADMIN_EMAIL
+if [ -z "$ADMIN_EMAIL" ]; then
+    echo "邮箱不能为空"
+    exit 1
+fi
+
+# 将参数传递给安装脚本
+export DOMAIN
+export ADMIN_EMAIL
+
+# 运行安装脚本
 bash install.sh
 
 # 清理临时文件

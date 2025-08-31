@@ -15,21 +15,28 @@ if [ "$EUID" -ne 0 ]; then
     exit 1
 fi
 
-# 获取域名
-echo "请输入你的域名 (例如: social.example.com): "
-read DOMAIN < /dev/tty
+# 获取域名和邮箱 (从环境变量或交互输入)
 if [ -z "$DOMAIN" ]; then
-    echo "域名不能为空"
-    exit 1
+    echo "请输入你的域名 (例如: social.example.com): "
+    read DOMAIN
+    if [ -z "$DOMAIN" ]; then
+        echo "域名不能为空"
+        exit 1
+    fi
 fi
 
-# 获取邮箱
-echo "请输入管理员邮箱: "
-read ADMIN_EMAIL < /dev/tty
 if [ -z "$ADMIN_EMAIL" ]; then
-    echo "邮箱不能为空"
-    exit 1
+    echo "请输入管理员邮箱: "
+    read ADMIN_EMAIL
+    if [ -z "$ADMIN_EMAIL" ]; then
+        echo "邮箱不能为空"
+        exit 1
+    fi
 fi
+
+echo "使用域名: $DOMAIN"
+echo "管理员邮箱: $ADMIN_EMAIL"
+echo ""
 
 echo "=== 更新系统 ==="
 apt update && apt upgrade -y
