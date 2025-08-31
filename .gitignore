@@ -1,0 +1,19 @@
+# 忽略临时文件
+*.tmp
+*.log
+.DS_Store
+
+# 忽略敏感配置文件
+.env.production
+*.key
+*.pem
+
+# 忽略数据目录
+postgres14/
+redis/
+public/system/
+
+# 忽略备份文件
+*.sql
+*.tar.gz
+backup_*
