@@ -16,14 +16,16 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 # 获取域名
-read -p "请输入你的域名 (例如: social.example.com): " DOMAIN
+echo "请输入你的域名 (例如: social.example.com): "
+read DOMAIN < /dev/tty
 if [ -z "$DOMAIN" ]; then
     echo "域名不能为空"
     exit 1
 fi
 
 # 获取邮箱
-read -p "请输入管理员邮箱: " ADMIN_EMAIL
+echo "请输入管理员邮箱: "
+read ADMIN_EMAIL < /dev/tty
 if [ -z "$ADMIN_EMAIL" ]; then
     echo "邮箱不能为空"
     exit 1

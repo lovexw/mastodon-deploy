@@ -30,8 +30,8 @@ chmod +x install.sh
 echo "文件下载完成，开始部署..."
 echo ""
 
-# 运行安装脚本
-./install.sh
+# 运行安装脚本 (使用交互模式)
+bash install.sh
 
 # 清理临时文件
 cd /
